@@ -1,3 +1,4 @@
+import 'package:action_figure_shopping/models/cart_model.dart';
 import 'package:action_figure_shopping/pages/Item_detail.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +8,9 @@ import 'package:action_figure_shopping/widgets/home_widgets/catalog_image.dart';
 
 
 class CatalogList extends StatelessWidget {
+
+
+
   const CatalogList({Key? key}) : super(key: key);
 
   @override
@@ -31,7 +35,7 @@ class CatalogList extends StatelessWidget {
 class CatalogItem extends StatelessWidget {
   final Item catalog;
 
-  const CatalogItem({Key? key, required this.catalog}) : super(key: key);
+  const CatalogItem({Key? key, required this.catalog}) : assert(catalog != null),super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -63,15 +67,7 @@ class CatalogItem extends StatelessWidget {
                   children: [
                     Text("\$${catalog.price}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),),
 
-                    ElevatedButton(
-                        style: ButtonStyle(
-                            shape: MaterialStateProperty.all(StadiumBorder()),
-                            backgroundColor: MaterialStateProperty.all(Colors.black87)
-                        ),
-                        onPressed: (){},
-                        child: Text("Add to cart",),
-
-                    )
+                    _AddToCart(catalog: catalog,),
                   ],)
               ],
             ))
@@ -80,4 +76,44 @@ class CatalogItem extends StatelessWidget {
     );
   }
 }
+
+class _AddToCart extends StatefulWidget {
+  final Item catalog;
+  const _AddToCart({Key? key, required this.catalog}) : assert(catalog!=null),super(key: key);
+
+  @override
+  _AddToCartState createState() => _AddToCartState();
+}
+
+class _AddToCartState extends State<_AddToCart> {
+
+  bool isAdded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ButtonStyle(
+          shape: MaterialStateProperty.all(StadiumBorder()),
+          backgroundColor: MaterialStateProperty.all(Colors.black87)
+      ),
+      onPressed: (){
+        if(isAdded == false){
+          isAdded = true;
+        }else{
+          isAdded = false;
+        }
+
+        final _catalog = CatalogModel();
+        final _cart = CartModel();
+        _cart.catalog = _catalog;
+        _cart.add(widget.catalog);
+
+        setState(() {});
+      },
+      child: isAdded?Icon(Icons.done):Text("Add to cart",),
+
+    );
+  }
+}
+
 

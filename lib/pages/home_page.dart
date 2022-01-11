@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          // Navigator.push(context, MaterialPageRoute(builder: (context) => MyCartPage(cartItemQueue: queue,)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => MyCartPage()));
         },
         backgroundColor: Colors.black,
         child: Icon(Icons.shopping_cart),
